@@ -1,0 +1,47 @@
+PART 1: DATA STRUCTURE:
+
+A data type in a programing language is a set of of data with predefined values integer, floating point, unit number, characters, string, etc...
+
+DATA TYPES:
++ System-defined data type(primitive DT)
++ User-defined data type(based on system-defined)
+
+CTDL là 1 pthuc cụ thể để lưu trữ và tổ chức dữ liệu. các kiểu dl thông thường bao gồm mảng, files, dslk, stack(LIFO), queue(FIFO), trees, graphs, and so on
+
+data structure:
++Linear: link lists, stack, queue(truy cap tuan tu)
++Non-linear: ko tuan tu 
+
+Abstract data type(adts): la kdl ket hop giua cac data structure + operation
++declaration of data
++declaration of operation
+
+Commonly used: link lists, stack, queue, priority queues, binary trees, dictionary, disjpoint, hash graphs and others.
+
+
+PART 2: ALGORITHM: cac chi dan khong mo ho, tung buoc mot ro rang de giai quyet 1 van de cho truoc 
+
+Thiet ke giai thuat:
++ Tinh dung dan: huu han, cach chung minh: quy nap or phan chung
++ Tinh hieu qua
+
+Tai sao phai phan tich giai thuat: so sanh thuat toan: running time, resources, developer effort
+Types of analysis:
++ Worst case
++ Best case 
++ Average
+
+Lower bound(best) <= Average << upper bound(worst)
+asymptotic notation: phan tich tiem can => bigO => worst, big omega=> average, big theta=> best
+
+f(n) dc goi la bigO cua g(n) neu ton tai 1 so c va n0 sao cho voi moi n > n0 thi cg(n) > f(n) 
+ex: f(n) = 3n + 8 <= 4n: => c = 4, n0 = 8 => f(n) = O(n)
+f(n) = n2 + 1 <= 2n2 => c = 2, g(n) = n2 Vn >= n0 = 1 => f(n) = O(n2)
+f(n) = n4 + 100n2 + 50 <= 2n4, c = 2, n0 = 11 => n4 +100n2 +50 = O(n4)with c = 2 Vn >= 11
+phan tich bigO => phan tich truong hop xua nhat
+
+
+
+
+ 
+
