@@ -11,8 +11,6 @@ void TimMin(int **, int);
 void TimMax(int **, int);
 int TimSoNguyenTo(int);
 void XuatSoNguyenTo(int **, int);
-// int TimSoNguyenTo();
-// void XuatSoNguyenTo();
 
 int main()
 {
