@@ -4,12 +4,13 @@ using namespace std;
 struct Node
 {
     int data;
-    Node *pNext;
+    struct Node *pNext;
 };
 
+// Khoi tao Node
 Node *InitNode(int x)
 {
-    Node *p = new Node;
+    Node *p = new Node();
     p->data = x;
     p->pNext = NULL;
     return p;
@@ -17,102 +18,72 @@ Node *InitNode(int x)
 
 struct Queue
 {
-    Node *pHead, *pTail;
+    Node *pFront;
+    Node *pRear;
 };
 
+// Khoi tao Queue
 void InitQueue(Queue &q)
 {
-    q.pHead = NULL;
-    q.pTail = NULL;
+    q.pFront = NULL;
+    q.pRear = NULL;
 }
 
-
-int IsEmpty(Queue q)
+// Kiem tra queue rong
+bool IsEmpty(Queue q)
 {
-    if(q.pHead == NULL)
+    if (q.pFront == NULL)
     {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
-void XuatQueue(Queue q)
+// Them phan tu
+bool EnQueue(Queue &q, Node *p)
 {
-    // for(Node *p = q.pHead; p != NULL; p = p->pNext)
-    // {
-    //     cout << p->data << " ";
-    // }
-    // cout << endl;
-    while (IsEmpty(q) == 0)
+    if (IsEmpty(q) == true)
     {
-        
-    }
-    
-}
-
-void Enqueue(Queue &q, int x)
-{
-    InitQueue(q);
-    Node *p = InitNode(x);
-    if(IsEmpty(q) == 1)
-    {
-        q.pHead = q.pTail = p;
+        q.pFront = q.pRear = p;
     }
     else
     {
-        q.pTail->pNext = p;
-        q.pTail = p;
+        q.pRear->pNext = p;
+        q.pRear = p;
     }
+    return true;
 }
 
-void Dequeue(Queue &q)
+// Xoa phan tu
+void DeQueue(Queue &q)
 {
-    if(IsEmpty(q) == 1)
+    if (IsEmpty(q) == true)
     {
-        cout << "\nQueue rong!!!";
+        cout << "\nQueue rong";
+        return;
     }
     else
     {
-        Node *p = q.pHead;
-        q.pHead = q.pHead->pNext;
-        delete p;
+        Node *p = q.pFront;
+        q.pFront = q.pFront->pNext;
     }
 }
 
-int CountElements(Queue q)
+// Xuat queue
+void PrintQueue(Queue q)
 {
-    int count = 0;
-    for(Node *p = q.pHead; p != NULL; p = p->pNext)
+    if(IsEmpty(q))
     {
-        count++;
+        cout << "\nQueue is empty!!!";
     }
-    return count;
-}
-
-void DeleteAll(Queue &q)
-{
-    for(Node *p = q.pHead; p != NULL; p = p->pNext)
+    else
     {
-        Dequeue(q);
+        for(Node *p = q.pFront; p != NULL; p = p->pNext)
+        {
+            cout << p->data << " ";
+        }
     }
-}
-
-
-int menu()
-{
-    int choice;
-    cout << "\n ================================";
-    cout << "\n Vui long chon chuc nang tuong ung";
-    cout << "\n 0. Thoat chuong trinh";
-    cout << "\n 1. Enqueue:";
-    cout << "\n 2. Dequeue:";
-    cout << "\n 3. IsEmpty:";
-    cout << "\n 4. Count Elements:";
-    cout << "\n 5. Delete all:";
-    cout << "\n ================================";
-    cout << "\n Lua chon cua ban: ";
-    cin >> choice;
-    return choice;
+    cout << endl;
 }
 
 void nhap(int &n)
@@ -124,62 +95,98 @@ void nhap(int &n)
     } while (n <= 0);
 }
 
+// Kich thuoc queue
+int SizeOfQueue(Queue q)
+{
+    if(IsEmpty(q) == true)
+    {
+        return 0;
+    }
+    int size = 0;
+    for(Node *p = q.pFront; p != NULL; p = p->pNext)
+    {
+        size++;
+    }
+    return size;
+}
+
+// Huy queue
+void DeleteQueue(Queue &q)
+{
+    while(!IsEmpty(q))
+    {
+        DeQueue(q);
+    }
+}
+
+void NhapQueue(Queue &q)
+{
+    int luachon, n;
+    nhap(n);
+    while (true)
+    {
+        cout << "\n ================================";
+        cout << "\n Vui long chon chuc nang tuong ung";
+        cout << "\n 0. Thoat chuong trinh";
+        cout << "\n 1. EnQueue:";
+        cout << "\n 2. DeQueue:";
+        cout << "\n 3. Xuat Queue:";
+        cout << "\n 4. IsEmpty:";
+        cout << "\n 5. Count Elements:";
+        cout << "\n 6. Delete Queue:";
+        cout << "\n ================================";
+        cout << "\n Lua chon cua ban: ";
+
+        cout << "\nNhap lua chon: ";
+        cin >> luachon;
+        if (luachon == 1)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                int x;
+                x = rand() % 100;
+                Node *p = InitNode(x);
+                EnQueue(q, p);
+            }
+            PrintQueue(q);
+        }
+        else if (luachon == 2)
+        {
+            DeQueue(q);
+            PrintQueue(q);
+        }
+        else if (luachon == 3)
+        {
+            PrintQueue(q);
+        }
+        else if(luachon == 4)
+        {
+            cout << "\nKiem tra queue empty: " << IsEmpty(q);
+        }
+        else if(luachon == 5)
+        {
+            cout << "\nKich thuoc queue: " << SizeOfQueue(q);
+        }
+        else if(luachon == 6)
+        {
+            DeleteQueue(q);
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
+
+
 int main()
 {
-    int n, choice, x;
     Queue q;
-    //InitQueue(q);
-    XuatQueue(q);
-    cout << "\nNhap x: ";
-    cin >> x;
-    Enqueue(q, x);
-    XuatQueue(q);
-    // bool flag = true;
-    // nhap(n);
-    // while (flag != false)
-    // {
-    //     choice = menu();
-    //     switch (choice)
-    //     {
-    //     case 0:
-    //         cout << "Bye bye.\n"; // Thoat chuong trinh
-    //         flag = false;
-    //         break;
+    InitQueue(q);
 
-    //     case 1:
-    //         for (int i = 0; i < n; i++)
-    //         {
-    //             //Enqueue(q, rand() % 100);
-    //         }
-    //         Enqueue(q, 69);
-    //         XuatQueue(q);
-    //         break;
-
-    //     case 2:
-    //         Dequeue(q);
-    //         XuatQueue(q);
-    //         break;
-
-    //     case 3:
-    //         cout << IsEmpty(q);
-    //         break;
-
-    //     case 4:
-    //         cout << "\nSo luong phan tu cua queue: " << CountElements(q);
-    //         break;
-
-    //     case 5:
-    //         DeleteAll(q);
-    //         XuatQueue(q);
-    //         break;
-
-    //     default:
-    //         cout << "Lua chon khong dung!!!.Xin long nhap lai: ";
-    //         cin >> choice;
-    //         break;
-    //     }
-    // }
-
+    NhapQueue(q);
+    //PrintQueue(q);
 
     cout << "\nEnter any key to finish program!!!\n";
     getchar();
