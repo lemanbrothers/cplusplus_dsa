@@ -108,11 +108,6 @@ int menu()
     cin >> choice;
     return choice;
 }
-/**
- funtion: input a value 
- @para: input from keyboard
- @result: 
-**/
 
 void nhap(int &n)
 {

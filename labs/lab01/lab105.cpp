@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-#define MAX 100
 
 void nhap(int &n)
 {
@@ -56,7 +55,7 @@ void Nhap(SinhVien &sv)
     } while (sv.DiemTrungBinh < 0 || sv.DiemTrungBinh > 10);
 }
 
-void NhapMangSV(SinhVien MangSV[MAX], int &n)
+void NhapMangSV(SinhVien *MangSV, int &n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -73,7 +72,7 @@ void Xuat(SinhVien sv)
     cout << "\nDiem trung binh: " << sv.DiemTrungBinh;
 }
 
-void XuatMangSV(SinhVien MangSV[MAX], int n)
+void XuatMangSV(SinhVien *MangSV, int n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -81,7 +80,7 @@ void XuatMangSV(SinhVien MangSV[MAX], int n)
     }
 }
 
-float TimDTBMax(SinhVien MangSV[MAX], int n)
+float TimDTBMax(SinhVien *MangSV, int n)
 {
     float max = MangSV[0].DiemTrungBinh;
     for (int i = 1; i < n; i++)
@@ -94,7 +93,7 @@ float TimDTBMax(SinhVien MangSV[MAX], int n)
     return max;
 }
 
-void XuatMaxDTB(SinhVien MangSV[MAX], int n)
+void XuatMaxDTB(SinhVien *MangSV, int n)
 {
     float Max = TimDTBMax(MangSV, n);
     for (int i = 0; i < n; i++)
@@ -106,7 +105,7 @@ void XuatMaxDTB(SinhVien MangSV[MAX], int n)
     }
 }
 
-void XuatDTBLonHon5(SinhVien MangSV[MAX], int n)
+void XuatDTBLonHon5(SinhVien *MangSV, int n)
 {
     int count = 0;
     for (int i = 0; i < n; i++)
@@ -126,7 +125,7 @@ void XuatDTBLonHon5(SinhVien MangSV[MAX], int n)
     }
 }
 
-void TimTenSV(SinhVien MangSV[MAX], int n)
+void TimTenSV(SinhVien *MangSV, int n)
 {
     cout << "\nNhap ten sinh vien can tim: ";
     //fflush(stdin);
@@ -150,7 +149,7 @@ void TimTenSV(SinhVien MangSV[MAX], int n)
     }
 }
 
-void XoaSinhVien(SinhVien MangSV[MAX], int &n)
+void XoaSinhVien(SinhVien *MangSV, int &n)
 {
     cout << "\nNhap ma so sinh vien can xoa: ";
     //fflush(stdin);
@@ -185,72 +184,37 @@ void XoaSinhVien(SinhVien MangSV[MAX], int &n)
     }
 }
 
-void ChenSinhVien(SinhVien MangSV[MAX], int &n)
+void ChenSinhVien(SinhVien *MangSV, int &n)
 {
-    if (n == 0 || n >= MAX)
-    {
-        cout << "\nMang rong hoac day. Khong the chen them du lieu!!!";
-        return;
-    }
-
     cout << "\nNhap thong tin sinh vien can them vao danh sach:";
     SinhVien sv;
     while (getchar() != '\n')
         ;
     Nhap(sv);
 
-    if (sv.DiemTrungBinh <= MangSV[0].DiemTrungBinh) //chen vao dau danh sach
+    int pos = 0;
+    for(int i = 0; i < n; i++)
     {
-        for (int i = n; i > 0; i--)
+        if(sv.DiemTrungBinh >= MangSV[i].DiemTrungBinh && sv.DiemTrungBinh <= MangSV[i+1].DiemTrungBinh)
         {
-            MangSV[i].HoTen = MangSV[i - 1].HoTen;
-            MangSV[i].MaSo = MangSV[i - 1].HoTen;
-            MangSV[i].DiemTrungBinh = MangSV[i - 1].DiemTrungBinh;
+            pos = i + 1;
         }
-        MangSV[0].HoTen = sv.HoTen;
-        MangSV[0].MaSo = sv.MaSo;
-        MangSV[0].DiemTrungBinh = sv.DiemTrungBinh;
-        ++n;
     }
-    else if (sv.DiemTrungBinh >= MangSV[n - 1].DiemTrungBinh) //chen vao cuoi danh sach
-    {
-        MangSV[n].HoTen = sv.HoTen;
-        MangSV[n].MaSo = sv.MaSo;
-        MangSV[n].DiemTrungBinh = sv.DiemTrungBinh;
-        ++n;
-    }
-    else // chen vao giua danh sach
-    {
-        int pos = 0;
-        for (int i = 0; i < n - 1; i++)
-        {
-            if (sv.DiemTrungBinh >= MangSV[i].DiemTrungBinh && sv.DiemTrungBinh <= MangSV[i + 1].DiemTrungBinh)
-            {
-                pos = i + 1;
-                break;
-            }
-        }
+    n++;
+    MangSV = (SinhVien *)realloc(MangSV, n * sizeof(sv));
 
-        for (int i = n; i > pos; i--)
-        {
-            MangSV[i].HoTen = MangSV[i - 1].HoTen;
-            MangSV[i].MaSo = MangSV[i - 1].MaSo;
-            MangSV[i].DiemTrungBinh = MangSV[i - 1].DiemTrungBinh;
-        }
-
-        MangSV[pos].HoTen = sv.HoTen;
-        MangSV[pos].MaSo = sv.MaSo;
-        MangSV[pos].DiemTrungBinh = sv.DiemTrungBinh;
-        ++n;
+    for(int j = n; j > pos; j--)
+    {
+        MangSV[j] = MangSV[j - 1];
     }
+    MangSV[pos] = sv;
 }
 
 int main()
 {
     int n;
     nhap(n);
-    //SinhVien *MangSV = new SinhVien[n];
-    SinhVien MangSV[MAX];
+    SinhVien *MangSV = new SinhVien[n];
 
     int choice;
     bool flag = true;
@@ -294,6 +258,6 @@ int main()
 
     cout << endl;
     //system("pause");
-    //delete[] MangSV;
+    delete[] MangSV;
     return 0;
 }
